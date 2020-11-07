@@ -1,2 +1,14 @@
 version: 2.1
 
+jobs:
+  say_hello:
+    docker: 
+      - image: alpine
+    steps:
+      - run: 
+          name: print hello
+          command: echo "Hello world!"
+workflows:
+  basic:
+    jobs:
+      - say_hello
