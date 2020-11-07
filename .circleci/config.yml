@@ -12,6 +12,7 @@ jobs:
           name: Build front-end
           command: |
             cd frontend
+            npm i
             npm run build
             exit 1
       - save_cache:
