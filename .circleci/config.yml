@@ -61,8 +61,8 @@ jobs:
       - run:
           name: Back-end test
           command: |
-            cd backend
             ls -la
+            cd backend
             npm run test
       # Checkout code from git
       # Restore from cache
