@@ -16,7 +16,7 @@ jobs:
             npm run build
       - save_cache:
           paths: [frontend/node_modules]
-          key: frontend-build
+          key: frontend-build-{{ .BuildNum }}
 
   build-backend:
     docker:
@@ -33,7 +33,7 @@ jobs:
             npm run build
       - save_cache:
           paths: [backend/node_modules]
-          key: backend-build
+          key: backend-build-{{ .BuildNum }}
 
   test-frontend:
     docker:
@@ -41,7 +41,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [frontend-build]
+          keys: [frontend-build-{{ .BuildNum }}]
       - run:
           name: Font-end test
           command: |
@@ -57,7 +57,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-build]
+          keys: [backend-build-{{ .BuildNum }}]
       - run:
           name: Back-end test
           command: |
