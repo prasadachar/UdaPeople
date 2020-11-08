@@ -45,7 +45,7 @@ jobs:
       - run:
           name: Font-end test
           command: |
-            cd frontend/test
+            cd frontend
             npm run test
       # Checkout code from git
       # Restore from cache
@@ -61,7 +61,7 @@ jobs:
       - run:
           name: Back-end test
           command: |
-            cd backend/test
+            cd backend
             npm run test
       # Checkout code from git
       # Restore from cache
