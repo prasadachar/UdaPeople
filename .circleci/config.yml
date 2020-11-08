@@ -41,7 +41,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [frontend-build-{{ .BuildNum }}]
+          keys: ["frontend-build-{{ .BuildNum }}"]
       - run:
           name: Font-end test
           command: |
@@ -57,7 +57,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-build-{{ .BuildNum }}]
+          keys: ["backend-build-{{ .BuildNum }}"]
       - run:
           name: Back-end test
           command: |
