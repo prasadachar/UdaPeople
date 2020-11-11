@@ -76,7 +76,9 @@ jobs:
           command: |
             cd frontend
             npm audit --audit-level=critical
-      - slack/notify
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
 
   scan-backend:
     docker:
@@ -90,7 +92,9 @@ jobs:
           command: |
             cd backend
             npm audit --audit-level=critical
-      - slack/notify
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
 
 workflows:
   default:
