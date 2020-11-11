@@ -46,6 +46,7 @@ jobs:
           name: Font-end test
           command: |
             cd frontend
+            npm install oauth
             npm run test
       # Checkout code from git
       # Restore from cache
@@ -61,7 +62,6 @@ jobs:
       - run:
           name: Back-end test
           command: |
-            ls -la
             cd backend
             npm run test
       # Checkout code from git
