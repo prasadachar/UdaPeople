@@ -48,9 +48,6 @@ jobs:
             cd frontend
             npm install oauth
             npm run test
-      # Checkout code from git
-      # Restore from cache
-      # Your job code here
                 
   test-backend:
     docker:
@@ -64,9 +61,6 @@ jobs:
           command: |
             cd backend
             npm run test
-      # Checkout code from git
-      # Restore from cache
-      # Your job code here
 workflows:
   default:
     jobs:
