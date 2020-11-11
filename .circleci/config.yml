@@ -20,6 +20,12 @@ jobs:
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build-<< pipeline.id >>
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
 
   build-backend:
     docker:
@@ -37,6 +43,12 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build-<< pipeline.id >>
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: success_tagged_deploy_1
 
   test-frontend:
     docker:
