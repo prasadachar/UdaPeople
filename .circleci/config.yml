@@ -46,7 +46,6 @@ jobs:
           name: Font-end test
           command: |
             cd frontend
-            npm install oauth
             npm run test
                 
   test-backend:
