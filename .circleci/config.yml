@@ -76,8 +76,7 @@ jobs:
           command: |
             cd frontend
             npm audit --audit-level=critical
-      - slack/notify:
-        event: pass
+      - slack/notify
 
   scan-backend:
     docker:
@@ -91,8 +90,7 @@ jobs:
           command: |
             cd backend
             npm audit --audit-level=critical
-      - slack/notify:
-        event: pass
+      - slack/notify
 
 workflows:
   default:
