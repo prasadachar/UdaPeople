@@ -9,8 +9,8 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      # - restore_cache:
-      #     keys: [frontend-build]
+      - restore_cache:
+          keys: [frontend-build]
       - run:
           name: Build front-end
           command: |
@@ -19,7 +19,7 @@ jobs:
             npm run build
       - save_cache:
           paths: [frontend/node_modules]
-          key: frontend-build-<< pipeline.id >>
+          key: frontend-build  # -<< pipeline.id >>
       - slack/notify:
           event: fail
           template: basic_fail_1
@@ -29,8 +29,8 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      # - restore_cache:
-      #     keys: [backend-build]
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Back-end build
           command: |
@@ -39,7 +39,7 @@ jobs:
             npm run build
       - save_cache:
           paths: [backend/node_modules]
-          key: backend-build-<< pipeline.id >>
+          key: backend-build  # -<< pipeline.id >>
       - slack/notify:
           event: fail
           template: basic_fail_1
@@ -50,7 +50,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: ["frontend-build-<< pipeline.id >>"]
+          keys: ["frontend-build"]  # -<< pipeline.id >>"
       - run:
           name: Font-end test
           command: |
@@ -66,7 +66,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: ["backend-build-<< pipeline.id >>"]
+          keys: ["backend-build"]  # -<< pipeline.id >>"
       - run:
           name: Back-end test
           command: |
@@ -82,7 +82,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: ["frontend-build-<< pipeline.id >>"]
+          keys: ["frontend-build"]  # -<< pipeline.id >>"
       - run:
           name: Font-end security scan
           command: |
@@ -101,7 +101,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: ["backend-build-<< pipeline.id >>"]
+          keys: ["backend-build"]  # -<< pipeline.id >>"
       - run:
           name: Back-end security scan
           command: |
