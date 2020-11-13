@@ -131,17 +131,17 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
-              #--tags project=your-tag \
               --stack-name "backend-stack-<< pipeline.parameters.workflow-id >>" \
-              --parameter-overrides ID="<< pipeline.parameters.workflow-id >>"  
+              --parameter-overrides ID="<< pipeline.parameters.workflow-id >>"
+              #--tags project=your-tag \
       - run:
           name: Ensure front-end infrastructure exist
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
-              #--tags project=your-tag \
               --stack-name "frontend-stack-<< pipeline.parameters.workflow-id >>" \
-              --parameter-overrides ID="<< pipeline.parameters.workflow-id >>"  
+              --parameter-overrides ID="<< pipeline.parameters.workflow-id >>"
+              #--tags project=your-tag \
       - run:
           name: Add back-end ip to ansible inventory
           command: |
