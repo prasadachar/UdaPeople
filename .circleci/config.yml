@@ -154,8 +154,9 @@ jobs:
       - rollback:
           when: on_fail
           command: |
-            aws cloudformation delete-stack "backend-stack-<< pipeline.parameters.workflow-id >>"
-            aws cloudformation delete-stack "frontend-stack-<< pipeline.parameters.workflow-id >>"
+            aws cloudformation delete-stack \
+              "backend-stack-<< pipeline.parameters.workflow-id >>"\
+              "frontend-stack-<< pipeline.parameters.workflow-id >>"
       # Here's where you will add some code to rollback on failure 
 
 workflows:
