@@ -151,7 +151,7 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-      - rollback:
+      - run:
           when: on_fail
           command: |
             aws cloudformation delete-stack \
