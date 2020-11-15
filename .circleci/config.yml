@@ -7,7 +7,8 @@ orbs:
 parameters:
   workflow-id:
     type: string
-    default: zxctwphpqnhp
+    # default: zxctwphpqnhp
+    value: "${CIRCLE_WORKFLOW_ID:0:7}"
 
 jobs:
   build-frontend:
