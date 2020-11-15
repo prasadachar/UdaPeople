@@ -132,16 +132,16 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
               --stack-name "backend-stack-<< pipeline.parameters.workflow-id >>" \
-              --parameter-overrides ID="<< pipeline.parameters.workflow-id >>"
-              #--tags project=your-tag \
+              --parameter-overrides ID="<< pipeline.parameters.workflow-id >>" \
+              --tags project=udapeople
       - run:
           name: Ensure front-end infrastructure exist
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
               --stack-name "frontend-stack-<< pipeline.parameters.workflow-id >>" \
-              --parameter-overrides ID="<< pipeline.parameters.workflow-id >>"
-              #--tags project=your-tag \
+              --parameter-overrides ID="<< pipeline.parameters.workflow-id >>" \
+              --tags project=udapeople
       - run:
           name: Add back-end ip to ansible inventory
           command: |
@@ -166,19 +166,19 @@ jobs:
 workflows:
   default:
     jobs:
-      # - build-frontend
-      # - build-backend
-      # - test-frontend:
-      #     requires: [build-frontend]
-      # - test-backend:
-      #     requires: [build-backend]
-      # - scan-frontend:
-      #     requires: [build-frontend]
-      # - scan-backend:
-      #     requires: [build-backend]
+      - build-frontend
+      - build-backend
+      - test-frontend:
+          requires: [build-frontend]
+      - test-backend:
+          requires: [build-backend]
+      - scan-frontend:
+          requires: [build-frontend]
+      - scan-backend:
+          requires: [build-backend]
       - deploy-infrastructure
-          #requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          #filters:
-          #  branches:
-          #    only: [test-feature-branch]
+          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          # filters:
+          #   branches:
+          #     only: [test-feature-branch]
  
