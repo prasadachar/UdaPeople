@@ -181,7 +181,7 @@ jobs:
       - run:
           name: Configure server
           command: |
-            cat ca.circleci/ansible/inventory.txt
+            cat .circleci/ansible/inventory.txt
             exit 0
       # Here's where you will add some code to rollback on failure  
 
