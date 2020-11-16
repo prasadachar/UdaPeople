@@ -167,7 +167,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: cimg/base:2020.01
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - add_ssh_keys:
