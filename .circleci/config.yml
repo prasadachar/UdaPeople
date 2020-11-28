@@ -214,10 +214,7 @@ jobs:
             ansible-playbook \
               -i .circleci/ansible/inventory.txt \
               .circleci/ansible/configure-server.yml
-      - destroy-environment:
-          # name: Destroy environment on failure
-          when: on_fail
-          # command: destroy-environment
+      - destroy-environment
 
   run-migrations:
     docker:
@@ -237,14 +234,8 @@ jobs:
               -H "token: << pipeline.parameters.memstash-token >>" \
               --request PUT --data "1" \
               https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID}
-      - run:
-          name: Rollback migrations
-          when: on_fail
-          command: revert-migrations
-      - run:
-          name: Destroy environment
-          when: on_fail
-          command: destroy-environment
+      - revert-migrations
+      - destroy-environment
 
   deploy-frontend:
     docker:
