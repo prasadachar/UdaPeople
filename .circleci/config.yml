@@ -214,10 +214,9 @@ jobs:
             ansible-playbook \
               -i .circleci/ansible/inventory.txt \
               .circleci/ansible/configure-server.yml
-      - run:
+      - destroy-environment:
           name: Destroy environment on failure
           when: on_fail
-          command: destroy-environment
 
   run-migrations:
     docker:
