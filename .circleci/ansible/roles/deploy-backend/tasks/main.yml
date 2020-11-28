@@ -1,0 +1,4 @@
+- name: Copy backend files
+  copy:
+    src: backend/dist
+    dest: ~/
