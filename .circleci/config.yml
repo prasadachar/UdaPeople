@@ -20,7 +20,8 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli
+            apk add --update py3-pip && pip3 install --upgrade pip 
+            pip3 install awscli
             aws s3 rm --recursive s3://udapeople-<< pipeline.parameters.workflow-id >>
             aws cloudformation delete-stack \
               --stack-name "udapeople-backend-<< pipeline.parameters.workflow-id >>"
@@ -213,6 +214,7 @@ jobs:
             ansible-playbook \
               -i .circleci/ansible/inventory.txt \
               .circleci/ansible/configure-server.yml
+            exit 1
       - destroy-environment
 
   run-migrations:
