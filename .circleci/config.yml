@@ -22,6 +22,7 @@ commands:
       # Destroy the current CloudFormation stacks using the same stack names you used when creating the stack earlier (front-end and back-end).
       - run:
           name: Destroy environments
+          when: on_fail
           command: |
             aws s3 rm --recursive s3://udapeople-<< pipeline.parameters.workflow-id >>
             aws cloudformation delete-stack \
@@ -37,6 +38,7 @@ commands:
       # Revert the last migration (IF a new migration was applied) on the database to that it goes back to the way it was before. You can use that value you saved in MemStash.io to know if you should revert any migrations.
       - run:
           name: Revert migrations
+          when: on_fail
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
             export SUCCESS=$(curl -H "token: << pipeline.parameters.memstash-token >>" --request GET https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID})
@@ -192,10 +194,7 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-      - run:
-          when: on_fail
-          command: |
-            echo "Destroy: TODO"
+      - destroy-environment
 
   configure-infrastructure:
     docker:
@@ -263,14 +262,8 @@ jobs:
           name: Deploy frontend objects
           command: |
             aws s3 cp --recursive frontend/dist "s3://udapeople-${OldWorkflowID}"
-      - run:
-          name: Rollback migrations
-          when: on_fail
-          command: revert-migrations
-      - run:
-          name: Destroy environment
-          when: on_fail
-          command: destroy-environment      
+      - revert-migrations
+      - destroy-environment      
                     
   deploy-backend:
     docker:
@@ -291,14 +284,8 @@ jobs:
             ansible-playbook \
               -i .circleci/ansible/inventory.txt \
               .circleci/ansible/deploy-backend.yml
-      - run:
-          name: Rollback migrations
-          when: on_fail
-          command: revert-migrations
-      - run:
-          name: Destroy environment
-          when: on_fail
-          command: destroy-environment
+      - revert-migrations
+      - destroy-environment
 
   smoke-test:
     docker:
@@ -335,14 +322,8 @@ jobs:
             else
             return 0
             fi
-      - run:
-          name: Rollback migrations
-          when: on_fail
-          command: revert-migrations
-      - run:
-          name: Destroy environment
-          when: on_fail
-          command: destroy-environment 
+      - revert-migrations
+      - destroy-environment 
 
   cloudfront-update:
     docker:
@@ -362,14 +343,8 @@ jobs:
               --stack-name "udapeople-cloudfront-<< pipeline.parameters.workflow-id >>" \
               --parameter-overrides ID="<< pipeline.parameters.workflow-id >>" \
               --tags project=udapeople
-      - run:
-          name: Rollback migrations
-          when: on_fail
-          command: revert-migrations
-      - run:
-          name: Destroy environment
-          when: on_fail
-          command: destroy-environment
+      - revert-migrations
+      - destroy-environment
 
   cleanup:
     docker:
