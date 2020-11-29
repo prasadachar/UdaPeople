@@ -210,6 +210,7 @@ jobs:
           name: Configure server
           command: |
             echo ENVIRONMENT=production > "backend/.env"
+
             echo TYPEFORM_CONNECTION=postgres >> "backend/.env"
             echo TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts >> "backend/.env"
             echo TYPEFORM_MIGRATIONS_DIR=.src/migrations/*.ts >> "backend/.env"
