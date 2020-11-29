@@ -195,7 +195,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: cimg/base:2020.01
+      - image: ubuntu
     steps:
       - checkout
       - add_ssh_keys:
