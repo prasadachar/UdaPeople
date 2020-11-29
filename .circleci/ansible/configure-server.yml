@@ -9,7 +9,6 @@
     - ansible_host_key_checking: false
     - ansible_stdout_callback: yaml
     - ansible_port: '22'
-  environment:
     # - ENVIRONMENT: production
     # - TYPEORM_CONNECTION: ${TYPEORM_CONNECTION}
     # - TYPEORM_ENTITIES: ${TYPEORM_ENTITIES}
