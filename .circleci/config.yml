@@ -16,11 +16,11 @@ commands:
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     steps:
-      - aws-cli/setup  # 
       - run:
           name: Destroy environments
           when: on_fail
           command: |
+            pip install aws-cli
             aws s3 rm --recursive s3://udapeople-<< pipeline.parameters.workflow-id >>
             aws cloudformation delete-stack \
               --stack-name "udapeople-backend-<< pipeline.parameters.workflow-id >>"
@@ -195,7 +195,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: ubuntu
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - add_ssh_keys:
@@ -205,8 +205,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            sudo apt update -q && sudo apt install -y -q ansible
-            # apk add --update ansible curl
+            # sudo apt update -q && sudo apt install -y -q ansible
+            apk add --update ansible
             cat .circleci/ansible/inventory.txt
       - run:
           name: Configure server
