@@ -20,7 +20,8 @@ commands:
       # Trigger rollback jobs if the smoke tests or any following jobs fail.
       # Delete files uploaded to S3.
       # Destroy the current CloudFormation stacks using the same stack names you used when creating the stack earlier (front-end and back-end).
-      - aws-cli/setup
+      - aws-cli/setup:
+          when: on_fail
       - run:
           name: Destroy environments
           when: on_fail
@@ -199,7 +200,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: cimg/base:2020.01
     steps:
       - checkout
       - add_ssh_keys:
@@ -209,7 +210,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible curl
+            sudo apt update -q && sudo apt install -y -q ansible
+            # apk add --update ansible curl
             cat .circleci/ansible/inventory.txt
       - run:
           name: Configure server
