@@ -13,6 +13,18 @@ parameters:
     default: "b9461c43-6888-4d04-8e76-7beeddbb863c"
 
 commands:
+  destroy-environment-node:
+    steps:
+      - aws-cli/setup
+      - run:
+          name: Destroy environments
+          when: on_fail
+          command: |
+            aws s3 rm --recursive s3://udapeople-<< pipeline.parameters.workflow-id >>
+            aws cloudformation delete-stack \
+              --stack-name "udapeople-backend-<< pipeline.parameters.workflow-id >>"
+            aws cloudformation delete-stack \
+              --stack-name "udapeople-frontend-<< pipeline.parameters.workflow-id >>"
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     steps:
@@ -237,7 +249,7 @@ jobs:
               --request PUT --data "1" \
               https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID}
       - revert-migrations
-      - destroy-environment
+      - destroy-environment-node
 
   deploy-frontend:
     docker:
@@ -263,7 +275,7 @@ jobs:
           name: Deploy frontend objects
           command: |
             aws s3 cp --recursive frontend/dist "s3://udapeople-${OldWorkflowID}"
-      - revert-migrations
+      - revert-migrations-node
       - destroy-environment      
                     
   deploy-backend:
@@ -328,14 +340,13 @@ jobs:
 
   cloudfront-update:
     docker:
-      - image: cimg/base:2020.01
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
-      - aws-cli/setup
       - run:
           name: Install dependencies
           command: |
-            # your code here
+            apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli
       - run:
           name: Update cloudfront distribution
           command: |
