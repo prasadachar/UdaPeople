@@ -18,14 +18,3 @@
     global: yes
     production: yes
     state: present
-
-- name: "set environment variables"
-  environment:
-    ENVIRONMENT: production
-    TYPEORM_CONNECTION: ${TYPEORM_CONNECTION}
-    TYPEORM_ENTITIES: ${TYPEORM_ENTITIES}
-    TYPEORM_HOST: ${TYPEORM_HOST}
-    TYPEORM_PORT: ${TYPEORM_PORT}
-    TYPEORM_USERNAME: ${TYPEORM_USERNAME}
-    TYPEORM_PASSWORD: ${TYPEORM_PASSWORD}
-    TYPEORM_DATABASE: ${TYPEORM_DATABASE}
