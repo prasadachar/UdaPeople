@@ -13,18 +13,6 @@ parameters:
     default: "b9461c43-6888-4d04-8e76-7beeddbb863c"
 
 commands:
-  destroy-environment-node:
-    steps:
-      - aws-cli/setup
-      - run:
-          name: Destroy environments
-          when: on_fail
-          command: |
-            aws s3 rm --recursive s3://udapeople-<< pipeline.parameters.workflow-id >>
-            aws cloudformation delete-stack \
-              --stack-name "udapeople-backend-<< pipeline.parameters.workflow-id >>"
-            aws cloudformation delete-stack \
-              --stack-name "udapeople-frontend-<< pipeline.parameters.workflow-id >>"
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     steps:
@@ -32,8 +20,8 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            apk add --update py3-pip && pip3 install --upgrade pip 
-            pip3 install awscli
+            # apk add --update py3-pip && pip3 install --upgrade pip 
+            # pip3 install awscli
             aws s3 rm --recursive s3://udapeople-<< pipeline.parameters.workflow-id >>
             aws cloudformation delete-stack \
               --stack-name "udapeople-backend-<< pipeline.parameters.workflow-id >>"
@@ -226,6 +214,11 @@ jobs:
             ansible-playbook \
               -i .circleci/ansible/inventory.txt \
               .circleci/ansible/configure-server.yml
+      - run:
+          name: Install AWS CLI for rollback
+          when: on_fail
+          command: |
+            apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli
       - destroy-environment
 
   run-migrations:
@@ -233,6 +226,9 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
+      - aws-cli/setup
+      - restore_cache:
+          keys: ["backend-build"]
       - run:
           name: Run migrations
           command: |
@@ -276,7 +272,7 @@ jobs:
           command: |
             aws s3 cp --recursive frontend/dist "s3://udapeople-${OldWorkflowID}"
       - revert-migrations
-      - destroy-environment-node    
+      - destroy-environment    
                     
   deploy-backend:
     docker:
@@ -297,12 +293,17 @@ jobs:
             ansible-playbook \
               -i .circleci/ansible/inventory.txt \
               .circleci/ansible/deploy-backend.yml
+      - run:
+          name: Install AWS CLI for rollback
+          when: on_fail
+          command: |
+            apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli
       - revert-migrations
       - destroy-environment
 
   smoke-test:
     docker:
-      - image: alpine
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - run:
@@ -335,6 +336,11 @@ jobs:
             else
             return 0
             fi
+      - run:
+          name: Install AWS CLI for rollback
+          when: on_fail
+          command: |
+            apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli
       - revert-migrations
       - destroy-environment 
 
