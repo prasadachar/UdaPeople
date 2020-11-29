@@ -16,7 +16,7 @@ commands:
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     steps:
-      - aws-cli/setup
+      - aws-cli/setup  # 
       - run:
           name: Destroy environments
           when: on_fail
