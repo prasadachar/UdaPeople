@@ -275,8 +275,8 @@ jobs:
           name: Deploy frontend objects
           command: |
             aws s3 cp --recursive frontend/dist "s3://udapeople-${OldWorkflowID}"
-      - revert-migrations-node
-      - destroy-environment      
+      - revert-migrations
+      - destroy-environment-node    
                     
   deploy-backend:
     docker:
