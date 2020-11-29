@@ -15,11 +15,7 @@ parameters:
 commands:
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
-    # parameters:
     steps:
-      # Trigger rollback jobs if the smoke tests or any following jobs fail.
-      # Delete files uploaded to S3.
-      # Destroy the current CloudFormation stacks using the same stack names you used when creating the stack earlier (front-end and back-end).
       - aws-cli/setup
       - run:
           name: Destroy environments
