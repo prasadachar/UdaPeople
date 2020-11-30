@@ -301,6 +301,11 @@ jobs:
           command: |
             apk add --update ansible
       - run:
+          name: Build backend
+          command: |
+            cd backend
+            npm run build
+      - run:
           name: Deploy backend
           command: |
             ansible-playbook \
