@@ -247,7 +247,7 @@ jobs:
             npm run migrations > migration.log
             migration_status=$(cat migration.log | grep -c "has been executed successfully")
             # cat migration.log
-            npm run build
+            npm run build --quiet
             if [ $migration_status > 0 ]; then exit 0; else exit 1; fi;
       - run:
           name: Send migration results to memstash
@@ -301,7 +301,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible # openssh-client
+            apk add --update ansible openssh-client
       - restore_cache:
           keys: ["backend-dist-<< pipeline.id >>"] 
       - run:
