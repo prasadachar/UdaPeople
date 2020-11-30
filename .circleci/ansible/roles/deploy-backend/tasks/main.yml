@@ -2,3 +2,8 @@
   copy:
     src: backend/dist
     dest: ~/
+
+- name: Start PM2
+  shell: |
+    cd backend
+    pm2 start npm --name backend -- start
