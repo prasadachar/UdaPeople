@@ -248,7 +248,9 @@ jobs:
             npm install
             npm run migrations > migration.log
             migration_status=$(cat migration.log | grep -c "has been executed successfully")
+            echo ">>>"
             cat migration.log
+            echo ">>>"
             npm run build
             if [ $migration_status > 0 ]; then exit 0; else exit 1; fi;
       - run:
