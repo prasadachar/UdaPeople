@@ -274,14 +274,15 @@ jobs:
           name: Install dependencies
           command: |
             cd frontend
-            npm install
-            npm run build
+            npm install --quiet
       - run:
-          name: Get backend url
+          name: Get backend url and build frontend
           command: |
             export BACKEND_URL=$(sed -n 2p .circleci/ansible/inventory.txt)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
+            cd frontend
+            npm run build --quiet
       - run:
           name: Deploy frontend objects
           command: |
