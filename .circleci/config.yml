@@ -204,7 +204,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible
+            apk add --update ansible openssh-client
             cat .circleci/ansible/inventory.txt
       - run:
           name: Configure server
