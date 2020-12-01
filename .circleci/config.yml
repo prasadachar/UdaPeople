@@ -302,13 +302,15 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible # openssh-client
+            apk add --update ansible
+            apk add openssh-client
       - restore_cache:
           keys: ["backend-dist-<< pipeline.id >>"] 
       - run:
           name: Build backend
           command: |
-            echo BLANK
+            ls -la /home/circleci/project/
+            ls -la /home/circleci/project/dist
             # cd backend
             # npm run build
       - run:
