@@ -242,15 +242,14 @@ jobs:
       - run:
           name: Run migrations
           command: |
-            env
             cd backend
-            npm install --silent
+            npm install
             npm run migrations > migration.log
             migration_status=$(cat migration.log | grep -c "has been executed successfully")
             echo ">>>"
             cat migration.log
             echo "<<<"
-            npm run build --silent
+            npm run build
             if [ $migration_status > 0 ]; then exit 0; else cat migration.log && exit 1; fi;
       - run:
           name: Send migration results to memstash

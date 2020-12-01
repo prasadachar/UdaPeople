@@ -1,7 +1,7 @@
 - name: Copy backend files
   copy:
     src: /home/circleci/project/backend/dist
-    dest: /home/ubuntu/
+    dest: /home/ubuntu/backend
 
 - name: Start PM2
   shell: |
