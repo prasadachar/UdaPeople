@@ -267,14 +267,13 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - aws-cli/setup
       - attach_workspace:
           at: ~/
       - run:
           name: Install dependencies
           command: |
             cd frontend
-            npm install --quiet
+            npm install
       - run:
           name: Get backend url and build frontend
           command: |
@@ -282,9 +281,9 @@ jobs:
             export API_URL="http://${BACKEND_IP}:3030"
             export ENVIRONMENT=production
             export NODE_ENV=production
-            echo "${API_URL}"
             cd frontend
-            npm run build --quiet
+            npm run build
+      - aws-cli/setup
       - run:
           name: Deploy frontend objects
           command: |
@@ -318,7 +317,7 @@ jobs:
           when: on_fail
           command: |
             apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli
-      #- revert-migrations 
+      #- revert-migrations
       #- destroy-environment
 
   smoke-test:
