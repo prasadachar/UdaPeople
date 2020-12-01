@@ -248,11 +248,10 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            # npm run migrations
             npm run migrations > migration.log
-            cat migration.log
-            # migration_status=$(cat migration.log | grep -c "has been executed successfully")
-            # if [ $migration_status > 0 ]; then exit 0; else exit 1; fi;
+            # cat migration.log
+            migration_status=$(cat migration.log | grep -c "has been executed successfully")
+            if [ $migration_status > 0 ]; then exit 0; else exit 1; fi;
       - run:
           name: Send migration results to memstash
           command: |
@@ -282,6 +281,7 @@ jobs:
             export BACKEND_IP=$(sed -n 2p .circleci/ansible/inventory.txt)
             export API_URL="http://${BACKEND_IP}:3030"
             export ENVIRONMENT=production
+            export NODE_ENV=production
             echo "${API_URL}"
             cd frontend
             npm run build --quiet
