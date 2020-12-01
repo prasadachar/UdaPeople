@@ -248,11 +248,10 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            # npm i
             npm run migrations > migration.log
             migration_status=$(cat migration.log | grep -c "has been executed successfully")
             cat migration.log
-            if [ $migration_status > 0 ]; then exit 0; else cat migration.log && exit 1; fi;
+            # if [ $migration_status > 0 ]; then exit 0; else cat migration.log && exit 1; fi;
       - run:
           name: Send migration results to memstash
           command: |
