@@ -309,6 +309,7 @@ jobs:
       - run:
           name: Deploy backend
           command: |
+            export ANSIBLE_HOST_KEY_CHECKING=False
             ansible-playbook \
               -i .circleci/ansible/inventory.txt \
               .circleci/ansible/deploy-backend.yml
