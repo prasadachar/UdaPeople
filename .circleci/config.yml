@@ -303,7 +303,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible
+            apk add --update ansible openssh-client
       - restore_cache:
           keys: ["backend-dist"]  # -<< pipeline.id >>
       - run:
@@ -431,10 +431,10 @@ workflows:
           requires: [deploy-infrastructure]
       - run-migrations:
           requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [run-migrations]
       - deploy-backend:
           requires: [run-migrations]
+      - deploy-frontend:
+          requires: [deploy-backend]
       # - smoke-test:
       #     requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
