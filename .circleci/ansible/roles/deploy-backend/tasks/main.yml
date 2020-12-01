@@ -1,4 +1,5 @@
 - name: Copy backend files
+  become: true
   copy:
     src: /home/circleci/project/backend/dist
     dest: /home/ubuntu/backend
