@@ -204,7 +204,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible openssh-client
+            apk add --update ansible
             cat .circleci/ansible/inventory.txt
       - run:
           name: Configure server
@@ -303,7 +303,6 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible
-            apk add openssh-client
       - restore_cache:
           keys: ["backend-dist-<< pipeline.id >>"] 
       - run:
