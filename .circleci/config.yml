@@ -242,6 +242,8 @@ jobs:
     steps:
       - checkout
       - aws-cli/setup
+      - restore_cache:
+          keys: ["backend-build"]
       - run:
           name: Run migrations
           command: |
