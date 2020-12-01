@@ -281,6 +281,7 @@ jobs:
           command: |
             export BACKEND_IP=$(sed -n 2p .circleci/ansible/inventory.txt)
             export API_URL="http://${BACKEND_IP}:3030"
+            export ENVIRONLMENT=production
             echo "${API_URL}"
             cd frontend
             npm run build --quiet
