@@ -248,7 +248,7 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            npm i
+            # npm i
             npm run migrations > migration.log
             migration_status=$(cat migration.log | grep -c "has been executed successfully")
             cat migration.log
