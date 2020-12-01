@@ -248,11 +248,11 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            npm run migrations
-            #npm run migrations > migration.log
-            #migration_status=$(cat migration.log | grep -c "has been executed successfully")
-            #cat migration.log
-            # if [ $migration_status > 0 ]; then exit 0; else cat migration.log && exit 1; fi;
+            # npm run migrations
+            npm run migrations > migration.log
+            # migration_status=$(cat migration.log | grep -c "has been executed successfully")
+            # cat migration.log
+            if [ $migration_status > 0 ]; then exit 0; else exit 1; fi;
       - run:
           name: Send migration results to memstash
           command: |
@@ -420,7 +420,7 @@ workflows:
   default:
     jobs:
       # - build-frontend
-      # - build-backend
+      - build-backend
       # - test-frontend:
       #     requires: [build-frontend]
       # - test-backend:
@@ -441,7 +441,7 @@ workflows:
       - deploy-frontend:
           requires: [run-migrations]
       - deploy-backend:
-          requires: [run-migrations]
+          requires: [run-migrations, build-backend]
       # - smoke-test:
       #     requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
