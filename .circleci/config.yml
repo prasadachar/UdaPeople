@@ -245,7 +245,7 @@ jobs:
             env
             cd backend
             npm install --silent
-            npm run migrations --silent > migration.log
+            npm run migrations > migration.log
             migration_status=$(cat migration.log | grep -c "has been executed successfully")
             echo ">>>"
             cat migration.log
