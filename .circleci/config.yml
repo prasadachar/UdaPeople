@@ -305,7 +305,7 @@ jobs:
           command: |
             apk add --update ansible
       - restore_cache:
-          keys: ["backend-dist-<< pipeline.id >>"] 
+          keys: ["backend-dist"]  # -<< pipeline.id >>
       - run:
           name: Build backend
           command: |
@@ -441,7 +441,7 @@ workflows:
       - deploy-frontend:
           requires: [run-migrations]
       - deploy-backend:
-          requires: [run-migrations, build-backend]
+          requires: [run-migrations]
       # - smoke-test:
       #     requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
