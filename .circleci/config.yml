@@ -84,7 +84,7 @@ jobs:
           key: backend-build  # -<< pipeline.id >>
       - save_cache:
           paths: [backend/dist]
-          key: backend-dist-<< pipeline.id >>
+          key: backend-dist  # -<< pipeline.id >>
       - slack/notify:
           event: fail
           template: basic_fail_1
@@ -252,7 +252,7 @@ jobs:
             npm run migrations > migration.log
             # migration_status=$(cat migration.log | grep -c "has been executed successfully")
             # cat migration.log
-            if [ $migration_status > 0 ]; then exit 0; else exit 1; fi;
+            # if [ $migration_status > 0 ]; then exit 0; else exit 1; fi;
       - run:
           name: Send migration results to memstash
           command: |
