@@ -282,7 +282,7 @@ jobs:
             export ENVIRONMENT=production
             export NODE_ENV=production
             cd frontend
-            npm run builds
+            npm run build
       - aws-cli/setup
       - run:
           name: Deploy frontend objects
@@ -318,7 +318,7 @@ jobs:
           command: |
             apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli
       #- revert-migrations
-      #- destroy-environment 
+      #- destroy-environment
 
   smoke-test:
     docker:
