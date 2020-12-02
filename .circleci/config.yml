@@ -303,13 +303,14 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible openssh-client
+            apk add --update ansible openssh-client tar gzip 
       - restore_cache:
           keys: ["backend-dist"]  # -<< pipeline.id >>
       - run:
           name: Deploy backend
           command: |
-            export ANSIBLE_HOST_KEY_CHECKING=False
+            tar -C backend/dist -czvf backend.tar.gz .
+            # export ANSIBLE_HOST_KEY_CHECKING=False
             ansible-playbook \
               -i .circleci/ansible/inventory.txt \
               .circleci/ansible/deploy-backend.yml

@@ -1,10 +1,12 @@
 - name: Copy backend files
   become: true
   copy:
-    src: /home/circleci/project/backend/dist
-    dest: /home/ubuntu/backend
+    src: /home/circleci/project/backend-dist.tar.gz  # backend/dist
+    dest: /home/ubuntu/backend.tar.gz
 
 - name: Start PM2
   shell: |
+    cd /home/ubuntu/
+    tar xzvf backend.tar.gz
     cd /home/ubuntu/backend
     pm2 start npm --name backend -- start
