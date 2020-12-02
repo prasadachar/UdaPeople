@@ -1,12 +1,12 @@
 - name: Copy backend files
   become: true
   copy:
-    src: /backend.tar.gz
+    src: /home/backend.tar.gz
     dest: /home/ubuntu/backend.tar.gz
 
 - name: Start PM2
   shell: |
     cd /home/ubuntu/
     tar xzvf backend.tar.gz
-    cd /home/ubuntu/backend
+    cd /home/ubuntu/backend/dist
     pm2 start npm --name backend -- start
