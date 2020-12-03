@@ -274,6 +274,7 @@ jobs:
           command: |
             cd frontend
             npm install
+            npm install webpack-dev-server -g
       - run:
           name: Get backend url
           command: |
