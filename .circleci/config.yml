@@ -275,12 +275,17 @@ jobs:
             cd frontend
             npm install
       - run:
-          name: Get backend url and build frontend
+          name: Get backend url
           command: |
             export BACKEND_IP=$(sed -n 2p .circleci/ansible/inventory.txt)
             export API_URL="http://${BACKEND_IP}:3030"
-            export ENVIRONMENT=production
-            export NODE_ENV=production
+
+            echo ENVIRONMENT=production > "frontend/.env"
+            echo NODE_ENV=production >> "frontend/.env"
+            echo API_URL=$API_URL >> "frontend/.env"
+      - run:
+          name: Build frontend
+          command: |
             cd frontend
             npm run build
       - aws-cli/setup
@@ -344,7 +349,7 @@ jobs:
       - run:
           name: Backend smoke test.
           command: |
-            if curl -s https://${BACKEND_URL}:3000/api/status)
+            if curl -s https://${BACKEND_URL}:3000/api/status
             then
             return 1
             else

@@ -8,5 +8,6 @@
   shell: |
     cd /home/ubuntu/
     tar xzvf backend.tar.gz
-    cd /home/ubuntu/backend/dist
+    mv home/circleci/project/backend/dist .
+    cd dist
     pm2 start npm --name backend -- start
