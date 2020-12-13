@@ -273,8 +273,8 @@ jobs:
           name: Install dependencies
           command: |
             cd frontend
-            npm install webpack-dev-server -g
-            npm install
+            sudo npm install webpack-dev-server -g
+            sudo npm install
       - run:
           name: Get backend url
           command: |
