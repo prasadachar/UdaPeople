@@ -375,7 +375,7 @@ jobs:
             then
             return 1
             else
-            return 0
+            return 1
             fi
       - run:
           name: Frontend smoke test.
@@ -478,11 +478,11 @@ workflows:
       #     requires: [build-frontend]
       # - scan-backend:
       #     requires: [build-backend]
-      - deploy-infrastructure  #:
+      - deploy-infrastructure:
           # requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          # filters:
-          #   branches:
-          #     only: [test-feature-branch]
+          filters:
+            branches:
+              only: [master] # test-feature-branch
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - run-migrations:
