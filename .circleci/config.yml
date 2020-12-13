@@ -267,8 +267,8 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      #- attach_workspace:
-      #    at: ~/
+      - attach_workspace:
+          at: ~/
       - run:
           name: Install dependencies
           command: |
@@ -298,8 +298,8 @@ jobs:
           name: Deploy frontend objects
           command: |
             aws s3 cp --recursive frontend/dist "s3://udapeople-<< pipeline.parameters.workflow-id >>"
-      #- revert-migrations
-      #- destroy-environment    
+      - revert-migrations
+      - destroy-environment    
                     
   deploy-backend:
     docker:
@@ -363,7 +363,8 @@ jobs:
       - run:
           name: Frontend smoke test.
           command: |
-            URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website-us-east-1.amazonaws.com"
+            URL="http://udapeople-<< pipeline.parameters.workflow-id >>.s3-website-eu-west-3.amazonaws.com"
+            echo $URL
 
             if curl -s ${URL} | grep "Welcome"
             then
@@ -451,8 +452,8 @@ workflows:
           requires: [run-migrations]
       - deploy-frontend:
           requires: [deploy-backend]
-      # - smoke-test:
-      #     requires: [deploy-backend, deploy-frontend]
+      - smoke-test:
+          requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
       #     requires: [smoke-test]
       # - cleanup:
