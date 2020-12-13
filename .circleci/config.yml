@@ -273,8 +273,8 @@ jobs:
           name: Install dependencies
           command: |
             cd frontend
+            npm install webpack-dev-server -g
             npm install
-            # npm install webpack-dev-server -g
       - run:
           name: Get backend url
           command: |
@@ -284,10 +284,14 @@ jobs:
             echo ENVIRONMENT=production > "frontend/.env"
             echo NODE_ENV=production >> "frontend/.env"
             echo API_URL=$API_URL >> "frontend/.env"
+
+            echo $API_URL
       - run:
           name: Build frontend
           command: |
             cd frontend
+            ls -la
+            cat .env
             npm run build
       - aws-cli/setup
       - run:
