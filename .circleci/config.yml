@@ -407,15 +407,7 @@ jobs:
           command: |
             apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli
       - run:
-          name: Update cloudfront distribution
-          command: |
-            aws cloudformation deploy \
-              --template-file .circleci/files/cloudfront.yml \
-              --stack-name "udapeople-cloudfront-<< pipeline.parameters.workflow-id >>" \
-              --parameter-overrides WorkflowID="<< pipeline.parameters.workflow-id >>" \
-              --tags project=udapeople
-      - run:
-          name: Send migration results to memstash
+          name: Save old workflow ID
           command: |
             export OldWorkflowID=$(aws cloudformation list-exports \
               --query "Exports[?Name==\`WorkflowID\`].Value" \
@@ -436,6 +428,14 @@ jobs:
                 --request PUT --data $OldWorkflowID \
                 https://api.memstash.io/values/old_workflow_id_${CIRCLE_WORKFLOW_ID}
             fi
+      - run:
+          name: Update cloudfront distribution
+          command: |
+            aws cloudformation deploy \
+              --template-file .circleci/files/cloudfront.yml \
+              --stack-name "udapeople-cloudfront-<< pipeline.parameters.workflow-id >>" \
+              --parameter-overrides WorkflowID="<< pipeline.parameters.workflow-id >>" \
+              --tags project=udapeople
       - revert-migrations
       - destroy-environment
 
