@@ -406,6 +406,7 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update py3-pip && pip3 install --upgrade pip && pip3 install awscli
+            apk add --update curl
       - run:
           name: Save old workflow ID
           command: |
@@ -427,8 +428,8 @@ jobs:
               --stack-name "udapeople-cloudfront-<< pipeline.parameters.workflow-id >>" \
               --parameter-overrides WorkflowID="<< pipeline.parameters.workflow-id >>" \
               --tags project=udapeople
-      - revert-migrations
-      - destroy-environment
+      # - revert-migrations
+      # - destroy-environment
 
   cleanup:
     docker:
