@@ -413,10 +413,10 @@ jobs:
               --query "Exports[?Name==\`WorkflowID\`].Value" \
               --no-paginate --output text)
 
-            export STACKS=($(aws cloudformation list-stacks \
+            export STACKS=$(aws cloudformation list-stacks \
               --query "StackSummaries[*].StackName" \
               --stack-status-filter CREATE_COMPLETE \
-              --no-paginate --output text))
+              --no-paginate --output text)
 
             echo "Old Workflow ID: ${OldWorkflowID}"
             echo "Stacks: ${STACKS}" 
