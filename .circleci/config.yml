@@ -242,14 +242,15 @@ jobs:
     steps:
       - checkout
       - aws-cli/setup
-      - restore_cache:
-          keys: ["backend-build"]
+      # - restore_cache:
+      #     keys: ["backend-build"]
       - run:
           name: Run migrations
           command: |
             cd backend
-            npm run migrations > migration.log
-            # cat migration.log
+            sudo build
+            sudo npm run migrations > migration.log
+            cat migration.log
             migration_status=$(cat migration.log | grep -c "has been executed successfully")
             if [ $migration_status > 0 ]; then exit 0; else exit 1; fi;
       - run:
