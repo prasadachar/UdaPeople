@@ -1,5 +1,0 @@
-drop table public.employee cascade ;
-drop table public.migrations cascade ;
-drop table public.order cascade ;
-drop table public.order_products_product cascade ;
-drop table public.product cascade ;
