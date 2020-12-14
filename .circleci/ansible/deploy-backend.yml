@@ -10,3 +10,5 @@
     - ansible_stdout_callback: yaml
   roles:
     - deploy-backend
+    - configure-prometheus-node-exporter
+
