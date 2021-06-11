@@ -76,8 +76,6 @@ jobs:
             cd backend
             npm i
             npm run build
-            npm update handlebars --depth 5
-            npm update typeorm --depth 1
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build  # -<< pipeline.id >>
@@ -135,6 +133,7 @@ jobs:
           name: Back-end security scan
           command: |
             cd backend
+            npm audit fix
             npm audit --audit-level=critical
 
   deploy-infrastructure:
