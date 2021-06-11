@@ -76,6 +76,8 @@ jobs:
             cd backend
             npm i
             npm run build
+            npm update handlebars --depth 5
+            npm update typeorm --depth 1
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build  # -<< pipeline.id >>
