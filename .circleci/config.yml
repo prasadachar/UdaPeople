@@ -219,13 +219,8 @@ jobs:
     steps:
       - checkout
       - aws-cli/setup
-      # - restore_cache:
-      #     keys: ["backend-build"]
-      - run:
-          name: Install dependencies
-          command: |
-            curl -sL https://rpm.nodesource.com/setup_12.x | bash -
-            yum -y install nodejs npm tar gzip jq git
+      - restore_cache:
+         keys: ["backend-build"]
       - run:
           name: Run migrations
           command: |
